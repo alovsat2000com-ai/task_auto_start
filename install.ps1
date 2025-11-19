@@ -16,8 +16,8 @@ try {
     $files = @(
         "Cleaner_v6.bat",
         "RDP_Cleaner2.bat",
-        "Cleare_time_startup_v2.xml",
-        "RDP Cleaner2.0.xml"
+        "Cleare_time_startup_v2.1.xml",
+        "RDP Cleaner2.1.xml"
     )
 
     foreach ($file in $files) {
