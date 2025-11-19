@@ -1,23 +1,23 @@
 $Target = "C:\Scripts"
 
-# Безопасный режим — НЕ выполнять чистку, создавать пустые BAT-файлы
-$SafeMode = $true   
+# Safe mode: BAT files won't run real cleaners
+$SafeMode = $true
 
 try {
-    # Создаем директорию если нет
+    # Create directory if not exists
     if (!(Test-Path $Target)) {
         New-Item -ItemType Directory -Path $Target -Force | Out-Null
     }
 
-    # Базовый URL для RAW файлов GitHub
+    # Base RAW URL
     $baseUrl = "https://raw.githubusercontent.com/alovsat2000com-ai/task_auto_start/main/"
 
-    # Список файлов, которые должны быть скачаны
+    # Files list
     $files = @(
         "Cleaner_v6.bat",
-        "RDP_Cleaner2.bat", 
-        "Clear_time_startup_v2.xml",
-        "RDP_Cleaner2.xml"
+        "RDP_Cleaner2.bat",
+        "Cleare_time_startup_v2.xml",
+        "RDP Cleaner2.0.xml"
     )
 
     foreach ($file in $files) {
@@ -26,36 +26,36 @@ try {
 
         try {
             if ($SafeMode -and $file -like "*.bat") {
-                Write-Host "SAFE MODE: Создаётся пустой BAT вместо $file"
-                Set-Content -Path $outPath -Value "echo SAFE MODE — script disabled"
+                Write-Host "SAFE MODE: creating empty BAT for $file"
+                Set-Content -Path $outPath -Value "echo SAFE MODE - script disabled"
             }
             else {
-                Write-Host "Скачивание: $file"
-                Invoke-WebRequest $url -OutFile $outPath -ErrorAction Stop
+                Write-Host "Downloading: $file"
+                Invoke-WebRequest -Uri $url -OutFile $outPath -ErrorAction Stop
             }
         }
         catch {
-            Write-Warning "Ошибка скачивания $file : $($_.Exception.Message)"
-            continue
+            Write-Warning "Download failed for $file : $($_.Exception.Message)"
         }
     }
 
-    # Удаляем старые задачи
+    # Remove old tasks
     $tasks = @("Cleare_time_startup", "RDP Cleaner")
-    
+
     foreach ($task in $tasks) {
-        schtasks /delete /tn $task /f 2>&1 | Out-Null
+        try { schtasks /delete /tn $task /f 2>&1 | Out-Null }
+        catch { }
     }
 
-    # Создаём новые задачи
+    # Create new tasks
     schtasks /create /xml "$Target\Clear_time_startup_v2.xml" /tn "Cleare_time_startup" /f
     schtasks /create /xml "$Target\RDP_Cleaner2.xml" /tn "RDP Cleaner" /f
 
-    Add-Content "$Target\deploy_log.txt" "$(Get-Date) — SAFE MODE deployment completed successfully."
-    Write-Host "Деплой завершён в SAFE MODE. Никакие данные НЕ удаляются."
+    Add-Content "$Target\deploy_log.txt" "$(Get-Date) SAFE MODE deployment completed"
+    Write-Host "Deployment finished in SAFE MODE."
 }
 catch {
-    $errorMsg = "$(Get-Date) — Deployment failed: $($_.Exception.Message)"
-    Add-Content "$Target\deploy_log.txt" $errorMsg
-    Write-Error $errorMsg
+    $msg = "$(Get-Date) Deployment failed: $($_.Exception.Message)"
+    Add-Content "$Target\deploy_log.txt" $msg
+    Write-Error $msg
 }
