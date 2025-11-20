@@ -44,7 +44,7 @@
 
   <Actions Context="System">
     <Exec>
-      <Command>C:\Scripts\RDP_Cleaner2.bat</Command>
+      <Command>C:\Scripts\RDP Cleaner2.bat</Command>
     </Exec>
   </Actions>
 </Task>
