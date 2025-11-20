@@ -21,7 +21,7 @@
   <Principals>
     <Principal id="System">
       <UserId>S-1-5-18</UserId>
-      <RunLevel>LeastPrivilege</RunLevel>
+      <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
   <Settings>
