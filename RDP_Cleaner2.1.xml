@@ -18,7 +18,7 @@
   <Principals>
     <Principal id="System">
       <UserId>S-1-5-18</UserId>
-      <RunLevel>HighestAvailible</RunLevel>
+      <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
 
