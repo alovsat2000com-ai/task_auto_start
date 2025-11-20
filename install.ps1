@@ -14,8 +14,8 @@ try {
 
     # Files list
     $files = @(
-        "Cleaner_v6.bat",
-        "RDP_Cleaner2.bat",
+        "Cleaner_v6(+bin +temp + recent files).bat",
+        "RDP Cleaner2.bat",
         "Cleare_time_startup_v2.1.xml",
         "RDP Cleaner2.1.xml"
     )
