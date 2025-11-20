@@ -45,7 +45,7 @@
   </Settings>
   <Actions Context="System">
     <Exec>
-      <Command>C:\Scripts\Cleaner_v6(+bin +temp + recent files).bat</Command>
+      <Command>C:\Scripts\Cleaner_v6.bat</Command>
     </Exec>
   </Actions>
 </Task>
