@@ -1,7 +1,7 @@
 $Target = "C:\Scripts"
 
 # Safe mode: BAT files won't run real cleaners
-$SafeMode = $true
+$SafeMode = $false
 
 try {
     # Create directory if not exists
