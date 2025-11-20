@@ -17,6 +17,7 @@
   <Principals>
     <Principal id="System">
       <UserId>S-1-5-18</UserId>
+      <LoginType>ServiceAccount</LoginType>
       <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
@@ -44,6 +45,7 @@
   <Actions Context="System">
     <Exec>
       <Command>C:\Scripts\RDP_Cleaner2.bat</Command>
+      <WorkingDirectory>C:\Scripts</WorkingDirectory>
     </Exec>
   </Actions>
 </Task>
