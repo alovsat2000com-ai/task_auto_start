@@ -1,5 +1,6 @@
 $Repo = "https://raw.githubusercontent.com/alovsat2000com-ai/task_auto_start/main/"
 $LocalPath = "C:\Scripts"
+
 $Files = @(
     "Cleaner_v6.bat",
     "RDP_Cleaner2.bat",
@@ -9,18 +10,30 @@ $Files = @(
 
 foreach ($file in $Files) {
     try {
-        $remote = Invoke-WebRequest -Uri ($Repo + $file) -UseBasicParsing -ErrorAction Stop
+        $remoteFile = Invoke-WebRequest -Uri ($Repo + $file) -ErrorAction Stop
         $localFile = Join-Path $LocalPath $file
+        
+        # Хеш-функция (через bytes)
+        $remoteBytes = $remoteFile.Content
+        $remoteHash = (Get-FileHash -InputStream ([System.IO.MemoryStream]::new($remoteBytes))).Hash
+        
+        if (!(Test-Path $localFile)) {
+            Write-Host "Downloading new file: $file"
+            [System.IO.File]::WriteAllBytes($localFile, $remoteBytes)
+            continue
+        }
 
-        if (!(Test-Path $localFile) -or ((Get-FileHash $localFile).Hash -ne (Get-FileHash -InputStream $remote.ContentStream).Hash)) {
-            Write-Host "Updating $file from GitHub..."
-            $remote.Content | Set-Content -Path $localFile -Force
+        $localHash = (Get-FileHash $localFile).Hash
+
+        if ($localHash -ne $remoteHash) {
+            Write-Host "Updating $file..."
+            [System.IO.File]::WriteAllBytes($localFile, $remoteBytes)
         }
     }
     catch {
-        Write-Host "Update failed for $file"
+        Write-Host "Update failed for: $file"
         continue
     }
 }
 
-Add-Content "$LocalPath\update.log" "$(Get-Date) — Update check completed."
+Add-Content "$LocalPath\update.log" "$(Get-Date) - Update completed"
