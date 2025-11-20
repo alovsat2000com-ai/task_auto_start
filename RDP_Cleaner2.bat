@@ -38,4 +38,7 @@ echo redirectprinters:i:1>>"%userprofile%\Documents\Default.rdp"
 echo audiocapturemode:i:1>>"%userprofile%\Documents\Default.rdp"
 echo audiomode:i:0>>"%userprofile%\Documents\Default.rdp"
 
+:: ENABLE MULTI-MONITOR FOR RDP
+echo use multimon:i:1>>"%userprofile%\Documents\Default.rdp"
+
 exit /b 0
