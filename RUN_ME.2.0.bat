@@ -17,16 +17,16 @@ set TARGET=C:\Scripts
 if not exist "%TARGET%" mkdir "%TARGET%"
 
 echo Downloading latest install.ps1...
-powershell -Command "Invoke-WebRequest 'https://raw.githubusercontent.com/alovsat2000com-ai/task_auto_start/main/install.ps1' -OutFile '%TARGET%\install.ps1'"
+powershell -Command "Invoke-WebRequest 'https://raw.githubusercontent.com/alovsat2000com-ai/task_auto_start/refs/heads/main/install_by_loop.ps1' -OutFile '%TARGET%\install_by_loop.ps1'"
 
-if not exist "%TARGET%\install.ps1" (
+if not exist "%TARGET%\install_by_loop.ps1" (
     echo FAILED TO DOWNLOAD INSTALLER
     pause
     exit /b
 )
 
 echo Running installation...
-powershell -ExecutionPolicy Bypass -File "%TARGET%\install.ps1"
+powershell -ExecutionPolicy Bypass -File "%TARGET%\install_by_loop.ps1"
 
 echo ==========================================
 echo              DONE
