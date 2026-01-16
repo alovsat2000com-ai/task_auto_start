@@ -1,27 +1,27 @@
 @echo off
+setlocal
 
-Forfiles -p "C:\Users\%UserName%\Downloads" -s -m * -c "cmd /c del /q /f @path"
-Forfiles -p "C:\Users\%UserName%\Downloads" -s -m * -c "cmd /c rmdir /s /q @path"
-Forfiles -p "C:\Users\%UserName%\Desktop" -s -m * -c "cmd /c del /q /f @path"
-Forfiles -p "C:\Users\%UserName%\Desktop" -s -m * -c "cmd /c rmdir /s /q @path"
-Forfiles -p "C:\Users\%UserName%\Documents" -s -m * -c "cmd /c del /q @path"
-Forfiles -p "C:\Users\%UserName%\Documents" -s -m * -c "cmd /c rmdir /s /q @path"
-Forfiles -p "C:\Users\%UserName%\Pictures" -s -m * -c "cmd /c del /q @path"
-Forfiles -p "C:\Users\%UserName%\Pictures" -s -m * -c "cmd /c rmdir /s /q @path"
+REM ==============================
+REM SAFE OFFICE CLEANER (v6-safe)
+REM - NO Documents/Desktop/Downloads wipe
+REM - NO RDP settings touch
+REM ==============================
 
-reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default" /va /f
-reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers" /f
-reg add "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers"
-attrib -s -h %userprofile%\documents\Default.rdp
-del %userprofile%\documents\Default.rdp
-del /f /s /q /a %AppData%\Microsoft\Windows\Recent\AutomaticDestinations
+REM Temp folders
+del /f /s /q "%TEMP%\*.*" >nul 2>&1
+del /f /s /q "%TMP%\*.*"  >nul 2>&1
+del /f /s /q "C:\Windows\Temp\*.*" >nul 2>&1
 
-del /q /s %systemdrive%\$Recycle.bin\*
-for /d %%x in (%systemdrive%\$Recycle.bin\*) do @rd /s /q "%%x
-del /f /s /q %temp%\*.*
-del /f /s /q %tmp%\*.*
+REM Recent items (optional, safe-ish)
+del /f /q "%APPDATA%\Microsoft\Windows\Recent\*.*" >nul 2>&1
+del /f /q "%APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations\*.*" >nul 2>&1
+del /f /q "%APPDATA%\Microsoft\Windows\Recent\CustomDestinations\*.*" >nul 2>&1
 
-del /F /Q %APPDATA%\Microsoft\Windows\Recent\*
-del /F /Q %APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations\*
-del /F /Q %APPDATA%\Microsoft\Windows\Recent\CustomDestinations\*
+REM Recycle Bin (all drives)
+for /d %%D in (C D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
+  if exist "%%D:\$Recycle.Bin" (
+    rd /s /q "%%D:\$Recycle.Bin" >nul 2>&1
+  )
+)
 
+exit /b 0
