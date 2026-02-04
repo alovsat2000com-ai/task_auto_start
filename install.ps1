@@ -10,6 +10,7 @@ $baseUrl = "https://raw.githubusercontent.com/alovsat2000com-ai/task_auto_start/
 
 # Download files from GitHub
 $files = @(
+    "DISABLE.txt"
     "Cleaner_v6.bat",
     "RDP_Cleaner2.bat",
     "update.ps1"
